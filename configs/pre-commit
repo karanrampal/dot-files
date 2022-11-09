@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+printf "\nRun format ...\n"
+make format
+
+printf "\nRun lint ...\n"
+make lint
+
+printf "\nRun tests ...\n"
+make test
