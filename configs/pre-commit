@@ -1,12 +1,24 @@
 #!/bin/sh
 
+STAGED=$(git diff --staged --name-only | grep *.py)
+
 set -e
 
 printf "\nRun format ...\n"
-make format
+if [ $STAGED ]; then
+    black $STAGED
+    isort $STAGED
+    mypy $STAGED
+else
+    echo "No py files to be commited!"
+fi
 
 printf "\nRun lint ...\n"
-make lint
+if [ $STAGED ]; then
+    pylint -j 4 $STAGED
+else
+    echo "No py files to be commited!"
+fi
 
 printf "\nRun tests ...\n"
 make test
