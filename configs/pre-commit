@@ -1,9 +1,11 @@
 #!/bin/sh
 
-STAGED=$(git diff --staged --name-only | grep "\.py$")
-NUM=$($STAGED | wc -l)
+NUM=$(git diff --staged --name-only | grep -c "\.py$")
 
-printf "\nFollowing Py Files being checked ... \n$STAGED\n"
+if [ $NUM ]; then
+    STAGED=$(git diff --staged --name-only | grep "\.py$")
+    printf "\nFollowing py Files being checked ... \n$STAGED\n"
+fi
 
 set -e
 
@@ -13,14 +15,14 @@ if [ $NUM ]; then
     isort $STAGED
     mypy $STAGED
 else
-    echo "No py files to be commited!"
+    echo "No py files to be formatted!"
 fi
 
 printf "\nRun linter ...\n"
 if [ $NUM ]; then
     pylint -j 4 $STAGED
 else
-    echo "No py files to be commited!"
+    echo "No py files to be linted!"
 fi
 
 printf "\nRun tests ...\n"
