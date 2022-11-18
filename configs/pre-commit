@@ -1,6 +1,6 @@
 #!/bin/sh
 
-STAGED=$(git diff --staged --name-only | grep .py)
+STAGED=$(git diff --staged --name-only | grep "\.py$")
 NUM=$($STAGED | wc -l)
 
 printf "\nFollowing Py Files being checked ... \n$STAGED\n"
