@@ -2,7 +2,7 @@
 
 NUM=$(git diff --staged --name-only | grep -c "\.py$")
 
-if [ $NUM ]; then
+if [ $NUM -gt 0 ]; then
     STAGED=$(git diff --staged --name-only | grep "\.py$")
     printf "\nFollowing py Files being checked ... \n$STAGED\n"
 fi
@@ -10,7 +10,7 @@ fi
 set -e
 
 printf "\nRun formatting ...\n"
-if [ $NUM ]; then
+if [ $NUM -gt 0 ]; then
     black $STAGED
     isort $STAGED
     mypy $STAGED
@@ -19,7 +19,7 @@ else
 fi
 
 printf "\nRun linter ...\n"
-if [ $NUM ]; then
+if [ $NUM -gt 0 ]; then
     pylint -j 4 $STAGED
 else
     echo "No py files to be linted!"
