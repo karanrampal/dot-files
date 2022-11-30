@@ -11,8 +11,8 @@ set -e
 
 printf "\nRun formatting ...\n"
 if [ $NUM -gt 0 ]; then
-    black $STAGED
-    isort $STAGED
+    black $STAGED --check
+    isort $STAGED --check
     mypy $STAGED
 else
     echo "No py files to be formatted!"
